@@ -121,6 +121,7 @@
 
 <!-- Array bounds check -->
 <section>
+	<h3>Array bounds</h3>
 		<table class="code">
 			<tr><td>C++</td><td>asm</td></tr>
 			<tr><td>
@@ -134,19 +135,79 @@
 </code></pre>
 		</td>
 		<td>
-				<pre><code class="asm">
+				<pre><code class="x86asm">
 	fun(int):
 	mov eax, 333
 	ret
 </code></pre>
-	</tr>
-	<tr class="hint"><td colspan="2">
-		Params: <b>a, b, c, d, si, di, sp, bp, r8-r15, xmm0-xmm15</b><br/>Returns: <b>a, d, xmm0</b>
-	</td></tr>
-</table>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
 </section>
 	
-			</div>
+<!-- Array bounds check -->
+<section>
+	<h3>Array bounds</h3>
+		<table class="code">
+			<tr><td>C++</td><td>asm</td></tr>
+			<tr><td>
+			<pre><code class="cpp" data-trim>
+					int fun(int i, int x)
+					{
+						int array[4];
+						array[i] = x;
+						return array[i];
+					}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+				fun(int, int):
+				mov eax, esi
+				ret
+			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+<!-- Array bounds check - 56th element-->
+<section>
+		<h3>Array bounds - the 5th element</h3>
+		<table class="code">
+			<tr><td>C++</td><td>asm</td></tr>
+			<tr><td>
+			<pre><code class="cpp" data-trim>
+					bool is_in_arr(int val)
+					{
+						int array[] = {1, 2, 3, 5};
+					
+						for (int i = 0; i <= 4; i++)
+							if (array[i] == val)
+								return true;
+						
+						return false;
+					}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+					is_in_arr(int):
+					mov eax, 1
+					ret
+			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+</div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
