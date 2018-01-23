@@ -20,6 +20,26 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+
+		<style>
+			.left-column {
+				float: left;
+				width:50%;
+			}
+
+			.right-column {
+				float: right;
+				width:50%;
+			}
+
+			table.code {
+				width: 100%;
+				margin: auto;
+			}
+			tr.hint {
+				font-size: 50%;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="reveal">
@@ -38,18 +58,21 @@
 <section>
 	<h3>About me</h3>
 	<ul>
-	<li>Maciek Gajewski &lt;maciej.gajewski0@gmail.com&gt;<br/>
-	<li>I work at Optiver, Amsterdam</br>
-	<li>Role: C++ Developer and tracher
+		<li>Maciek Gajewski &lt;maciej.gajewski0@gmail.com&gt;</li>
+		<li>I work at Optiver, Amsterdam</li>
+		<li>Role: C++ Developer and teacher</li>
 	</ul>
 </section>
 
 <!-- UB - def -->
 <section>
 	<h3>Undefined behavior</h3>
-	<i>“When the compiler encounters [a given undefined construct] it is legal for it to make demons fly out of your nose”</i>
-	<br/>
-	<small>comp.std.c, 1992</small>
+	<div width="100%">
+		<i>“When the compiler encounters [a given undefined construct]<br/>
+			 it is legal for it to make demons fly out of your nose”</i>
+		<br/>
+		<small>comp.std.c, 1992</small>
+	</div>
 </section>
 
 <!-- about undefined behaviour-->
@@ -67,17 +90,17 @@
 <section>
 	<h3>Compiler Explorer</h3>
 	<ul>
-		<li>https://godbolt.org/
-		<li>By Matt Godbolt
-		<li>Great tool for teachers and tweakers
-		<li>Basic assembly required
-		<li>See: https://www.youtube.com/watch?v=bSkpMdDe4g4
+		<li><a href="https://godbolt.org/">https://godbolt.org/</a>
+		<li>By Matt Godbolt</li>
+		<li>Great tool for teachers and tweakers</li>
+		<li>Basic assembly required</li>
+		<li>CppCon 2017 <i>“What Has My Compiler Done for Me Lately?”</i></li>
 	</ul>
 </section>
 
-<!-- Assmebly refresher -->
+<!-- Assembly refresher -->
 <section>
-	<h3>x64 Assembly: a refresher</h3>
+	<h3>x64 Assembly: registers</h3>
 	<ul>
 		<li>Registers: <b>a, b, c, d, si, di, sp, bp, r8-r15, xmm0-xmm15</b></li>
 		<li>Register widths: <b>8: ah/al, 16: ax, 32: eax, 64: rax</b></li>
@@ -86,7 +109,43 @@
 	</ul>
 </section>
 
+<section>
+	<h3>x64 Assembly: instructions</h3>
+	Intel syntax
+	<pre>
+		oper
+		oper dest
+		oper dest src
+	</pre>
+</section>
 
+<!-- Array bounds check -->
+<section>
+		<table class="code">
+			<tr><td>C++</td><td>asm</td></tr>
+			<tr><td>
+			<pre><code class="cpp">
+	int fun(int i)
+	{
+		int array[4];
+		array[i] = 333;
+		return array[i];
+	}
+</code></pre>
+		</td>
+		<td>
+				<pre><code class="asm">
+	fun(int):
+	mov eax, 333
+	ret
+</code></pre>
+	</tr>
+	<tr class="hint"><td colspan="2">
+		Params: <b>a, b, c, d, si, di, sp, bp, r8-r15, xmm0-xmm15</b><br/>Returns: <b>a, d, xmm0</b>
+	</td></tr>
+</table>
+</section>
+	
 			</div>
 		</div>
 
@@ -98,6 +157,9 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				width: '100%',
+				history: true,
+				slideNumber: true, slideNumber: 'c/t',
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
