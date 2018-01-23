@@ -116,12 +116,13 @@
 		oper
 		oper dest
 		oper dest src
+		oper dest [src ptr]
 	</pre>
 </section>
 
 <!-- Array bounds check -->
 <section>
-	<h3>Array bounds</h3>
+	<h3>Array bounds - optimization</h3>
 		<table class="code">
 			<tr><td>C++</td><td>asm</td></tr>
 			<tr><td>
@@ -149,7 +150,7 @@
 	
 <!-- Array bounds check -->
 <section>
-	<h3>Array bounds</h3>
+	<h3>Array bounds - optimization</h3>
 		<table class="code">
 			<tr><td>C++</td><td>asm</td></tr>
 			<tr><td>
@@ -197,8 +198,85 @@
 		<td>
 			<pre><code class="x86asm" data-trim>
 					is_in_arr(int):
-					mov eax, 1
-					ret
+					  mov eax, 1
+					  ret
+			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+<!-- Int overflow-->
+<section>
+		<h3>Integer overflow - optimization</h3>
+		<table class="code">
+			<tr><td>C++</td><td>asm</td></tr>
+			<tr><td>
+			<pre><code class="cpp" data-trim>
+					int foo(int a, int b)
+					{
+					  for(int i = 0; i < 10; i++)
+					  {
+						if (b+i > b)
+							return 6;
+						a++;
+					  }
+					  return a;
+					}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+					foo(int, int):
+					  mov eax, 6
+					  ret
+					</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+<section>
+		<h3>Integer overflow - optimization</h3>
+		<table class="code stretch">
+			<tr><td>C++</td><td>asm</td></tr>
+			<tr><td>
+			<pre><code class="cpp" data-trim>
+					int foo(int a, unsigned b)
+					{
+					  for(int i = 0; i < 10; i++)
+					  {
+						if (b+i > b)
+							return 6;
+						a++;
+					  }
+					  return a;
+					}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+foo(int, unsigned int):
+	mov eax, edi
+	lea ecx, [rdi+10]
+	jmp .L2
+.L4:
+	lea edx, [rax+rsi]
+	sub edx, edi
+	cmp esi, edx
+	jb .L5
+.L2:
+	add eax, 1
+	cmp eax, ecx
+	jne .L4
+	rep ret
+.L5:
+	mov eax, 6
+	ret
 			</code></pre>
 		</td></tr>
 		<tr class="hint"><td colspan="2">
@@ -221,6 +299,7 @@
 				width: '100%',
 				history: true,
 				slideNumber: true, slideNumber: 'c/t',
+				transition: 'none',
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
