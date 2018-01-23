@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Quick look at UB and compiler opts</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+	<!-- Intro -->
+<section>
+	Quick but close look at
+	<h3>Undefined behavior</h3>
+	and
+	<h3>compiler optimizations</h3>
+	<small>Maciek Gajewski</small>
+</section>
+
+<!-- about -->
+<section>
+	<h3>About me</h3>
+	<ul>
+	<li>Maciek Gajewski &lt;maciej.gajewski0@gmail.com&gt;<br/>
+	<li>I work at Optiver, Amsterdam</br>
+	<li>Role: C++ Developer and tracher
+	</ul>
+</section>
+
+<!-- UB - def -->
+<section>
+	<h3>Undefined behavior</h3>
+	<i>“When the compiler encounters [a given undefined construct] it is legal for it to make demons fly out of your nose”</i>
+	<br/>
+	<small>comp.std.c, 1992</small>
+</section>
+
+<!-- about undefined behaviour-->
+<section>
+	<h3>Undefined behavior</h3>
+	<ul>
+		<li>Pretty much specific to C and C++
+		<li>Essential for some compiler optimizations
+		<li>(Yet another thing that makes C++) hard to teach
+		<li>Compiler Explorer is a great help
+	</ul>
+</section>
+
+<!-- about compiler explorer -->
+<section>
+	<h3>Compiler Explorer</h3>
+	<ul>
+		<li>https://godbolt.org/
+		<li>By Matt Godbolt
+		<li>Great tool for teachers and tweakers
+		<li>Basic assembly required
+		<li>See: https://www.youtube.com/watch?v=bSkpMdDe4g4
+	</ul>
+</section>
+
+<!-- Assmebly refresher -->
+<section>
+	<h3>x64 Assembly: a refresher</h3>
+	<ul>
+		<li>Registers: <b>a, b, c, d, si, di, sp, bp, r8-r15, xmm0-xmm15</b></li>
+		<li>Register widths: <b>8: ah/al, 16: ax, 32: eax, 64: rax</b></li>
+		<li>Function params: <b>rdi, rsi, rdx, rcx, r8, r9</b></li>
+		<li>Function return value in: <b>rax, rdx, xmm0</b></li>
+	</ul>
+</section>
+
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
