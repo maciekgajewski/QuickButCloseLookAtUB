@@ -374,6 +374,110 @@ foo(int, unsigned int):
 	</table>
 </section>
 
+<section>
+		<h3>Null pointer dereference</h3>
+		<table class="code">
+			<tr><td>C++</td><td>asm</td></tr>
+			<tr><td>
+			<pre><code class="cpp" data-trim>
+				int some_other_fun();
+
+				void set_val(int* buf, int val)
+				{
+					int v = *buf;
+					if (buf)
+						*buf = val;
+					else
+						*buf = val + some_other_fun();
+				}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+				set_val(int*, int):
+					mov DWORD PTR [rdi], esi
+					ret
+			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+<!-- uninitialized variable -->
+<section>
+	<h3>Uninitialized variable</h3>
+	<table class="code">
+		<tr><td>C++</td><td>asm</td></tr>
+		<tr><td>
+			<pre><code class="cpp" data-trim>
+				int type_to_code(char type)
+				{
+					int code = -1;
+					if (type == 'a')
+						code = 11;
+					if (type == 'b')
+						code = 22;
+					
+					return code;
+				}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+				type_to_code(char):
+					cmp dil, 97
+					mov eax, 11
+					je .L1
+					cmp dil, 98
+					mov eax, -1
+					mov edx, 22
+					cmove eax, edx
+				.L1:
+					rep ret
+			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+<section>
+	<h3>Uninitialized variable</h3>
+	<table class="code">
+		<tr><td>C++</td><td>asm</td></tr>
+		<tr><td>
+			<pre><code class="cpp" data-trim>
+				int type_to_code(char type)
+				{
+					int code;
+					if (type == 'a')
+						code = 11;
+					if (type == 'b')
+						code = 22;
+					
+					return code;
+				}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+				type_to_code(char):
+					cmp dil, 98
+					mov edx, 22
+					mov eax, 11
+					cmove eax, edx
+					ret
+			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+	
 </div>
 		</div>
 
