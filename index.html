@@ -573,6 +573,47 @@ act(): # @act()
 	</table>
 </section>
 
+<!-- uninitialized variable - rm -rf-->
+<section>
+	<h3>Uninitialized variable (3)</h3>
+	<table class="code stretch">
+		<tr><td>C++</td><td>asm (clang)</td></tr>
+		<tr><td>
+			<pre><code class="cpp" data-trim>
+#include &lt;stdlib.h&gt;
+
+static void rm_rf() {
+    ::system("rm -rf /");
+}
+
+static void (*fun_ptr)();
+
+void call() {
+    fun_ptr();
+}
+
+void set_ptr_to_rm_rf() {
+    fun_ptr = &rm_rf;
+}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+call(): # @call()
+	mov edi, .L.str
+	jmp system # TAILCALL
+set_ptr_to_rm_rf(): # @set_ptr_to_rm_rf()
+	ret
+.L.str:
+	.asciz "rm -rf /"
+		</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
 
 </div>
 		</div>
