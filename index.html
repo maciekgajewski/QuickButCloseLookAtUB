@@ -477,7 +477,103 @@ foo(int, unsigned int):
 		</td></tr>
 	</table>
 </section>
+
+<!-- uninitialized variable - foo/bar-->
+<section>
+	<h3>Uninitialized variable (2)</h3>
+	<table class="code">
+		<tr><td>C++</td><td>asm</td></tr>
+		<tr><td>
+			<pre><code class="cpp" data-trim>
+	void foo();
+	void bar();
+
+	void act()
+	{
+		int x;
+		if (x != 7)
+			foo();
+		else
+			bar();
+	}
+			</code></pre>
+		</td>
+		<td>
+			???
+			<pre><code class="x86asm" data-trim>
+			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
 	
+<!-- uninitialized variable - foo/bar-->
+<section>
+	<h3>Uninitialized variable (2)</h3>
+	<table class="code">
+		<tr><td>C++</td><td>asm (gcc)</td></tr>
+		<tr><td>
+			<pre><code class="cpp" data-trim>
+void foo();
+void bar();
+
+void act()
+{
+	int x;
+	if (x != 7)
+		foo();
+	else
+		bar();
+}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+act():
+	jmp foo()
+  			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+<!-- uninitialized variable - foo/bar-->
+<section>
+	<h3>Uninitialized variable (2)</h3>
+	<table class="code">
+		<tr><td>C++</td><td>asm (clang)</td></tr>
+		<tr><td>
+			<pre><code class="cpp" data-trim>
+	void foo();
+	void bar();
+
+	void act()
+	{
+		int x;
+		if (x != 7)
+			foo();
+		else
+			bar();
+	}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+act(): # @act()
+	jmp bar() # TAILCALL
+  			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+
 </div>
 		</div>
 
