@@ -67,12 +67,23 @@
 <!-- UB - def -->
 <section>
 	<h3>Undefined behavior</h3>
+	<p>The popular definition:</p>
 	<div width="100%">
 		<i>“When the compiler encounters [a given undefined construct]<br/>
 			 it is legal for it to make demons fly out of your nose”</i>
 		<br/>
 		<small>comp.std.c, 1992</small>
 	</div>
+</section>
+
+<section>
+	<h3>Undefined behavior</h3>
+	<p>More useful definition:</p>
+	<ul>
+		<li>Machine-dependent behavior that would be too costly to define</li>
+		<li>Something, that compiler can assume you would never do</li>
+	</ul>
+
 </section>
 
 <!-- about undefined behaviour-->
@@ -278,6 +289,84 @@ foo(int, unsigned int):
 	mov eax, 6
 	ret
 			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+<section>
+		<h3>Integer overflow - optimization</h3>
+		<table class="code stretch">
+			<tr><td>C++</td><td>asm (clang)</td></tr>
+			<tr><td>
+			<pre><code class="cpp" data-trim>
+					void zero_array(float* P, int offset)
+					{
+					   for (int i = 0; i != 10000; ++i)
+						 P[i+offset] = 0.0f;
+					}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+				zero_array(float*, int): # @zero_array(float*, int)
+					push rax
+					movsxd rax, esi
+					lea rdi, [rdi + 4*rax]
+					xor esi, esi
+					mov edx, 40000
+					call memset
+					pop rax
+					ret
+			</code></pre>
+		</td></tr>
+		<tr class="hint"><td colspan="2">
+			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
+		</td></tr>
+	</table>
+</section>
+
+<section>
+		<h3>Integer overflow - optimization</h3>
+		<table class="code stretch">
+			<tr><td>C++</td><td>asm (clang)</td></tr>
+			<tr><td>
+			<pre><code class="cpp" data-trim>
+					void zero_array(float* P, unsigned offset)
+					{
+					   for (int i = 0; i != 10000; ++i)
+						 P[i+offset] = 0.0f;
+					}
+			</code></pre>
+		</td>
+		<td>
+			<pre><code class="x86asm" data-trim>
+				zero_array(float*, unsigned int): # @zero_array(float*, unsigned int)
+					mov eax, esi
+					xor ecx, ecx
+					cmp esi, -10000
+					jbe .LBB0_1
+				.LBB0_4: # =>This Inner Loop Header: Depth=1
+					lea edx, [rax + rcx]
+					mov dword ptr [rdi + 4*rdx], 0
+					inc rcx
+					cmp rcx, 10000
+					jne .LBB0_4
+					jmp .LBB0_3
+				.LBB0_1:
+					xorps xmm0, xmm0
+				.LBB0_2: # =>This Inner Loop Header: Depth=1
+					lea edx, [rax + rcx]
+					movups xmmword ptr [rdi + 4*rdx], xmm0
+					movups xmmword ptr [rdi + 4*rdx + 16], xmm0
+					add rcx, 8
+					cmp rcx, 10000
+					jne .LBB0_2
+				.LBB0_3:
+					ret
+				</code></pre>
 		</td></tr>
 		<tr class="hint"><td colspan="2">
 			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
