@@ -47,7 +47,7 @@
 
 	<!-- Intro -->
 <section>
-	Quick but close look at
+	Quick, but close look at
 	<h3>Undefined behavior</h3>
 	and
 	<h3>compiler optimizations</h3>
@@ -62,6 +62,10 @@
 		<li>I work at Optiver, Amsterdam</li>
 		<li>Role: C++ Developer and teacher</li>
 	</ul>
+	<div class="stretch"/>
+		<img src="pics/Maciek.jpg"/><br/>
+		<img src="pics/optiver_logo_white.png" style="border: none; background: none"/>
+	</div>
 </section>
 
 <!-- UB - def -->
@@ -73,6 +77,9 @@
 			 it is legal for it to make demons fly out of your nose”</i>
 		<br/>
 		<small>comp.std.c, 1992</small>
+	</div>
+	<div class="stretch">
+		<img src="pics/demon.jpg"/>
 	</div>
 </section>
 
@@ -131,6 +138,10 @@
 	</pre>
 </section>
 
+<section>
+	<h1>Accessing array out of bounds</h1>
+</section>
+
 <!-- Array bounds check -->
 <section>
 	<h3>Array bounds - optimization</h3>
@@ -187,7 +198,7 @@
 	</table>
 </section>
 
-<!-- Array bounds check - 56th element-->
+<!-- Array bounds check - 5th element-->
 <section>
 		<h3>Array bounds - the 5th element</h3>
 		<table class="code">
@@ -220,6 +231,11 @@
 </section>
 
 <!-- Int overflow-->
+<section>
+	<h1>Signed integer overflow</h1>
+</section>
+
+
 <section>
 		<h3>Integer overflow - optimization</h3>
 		<table class="code">
@@ -374,6 +390,11 @@ foo(int, unsigned int):
 	</table>
 </section>
 
+<!-- Null pointer dereference -->
+<section>
+	<h1>Null pointer dereference</h1>
+</section>
+
 <section>
 		<h3>Null pointer dereference</h3>
 		<table class="code">
@@ -406,6 +427,10 @@ foo(int, unsigned int):
 </section>
 
 <!-- uninitialized variable -->
+<section>
+	<h1>Reading uninitialized local variable</h1>
+</section>
+
 <section>
 	<h3>Uninitialized variable</h3>
 	<table class="code">
@@ -614,6 +639,15 @@ set_ptr_to_rm_rf(): # @set_ptr_to_rm_rf()
 	</table>
 </section>
 
+<!-- The end -->
+<section>
+	<h3>The Last Slide</h3>
+	<ul>
+		<li>Maciej Gajewski &lt;maciej.gajewski0@gmail.com&gt</li>
+		<li><a href="https://maciekgajewski.github.io/QuickButCloseLookAtUB/index.html#">https://maciekgajewski.github.io/QuickButCloseLookAtUB/index.html</a></li>
+		<li><a href="https://gcc.godbolt.org/">https://gcc.godbolt.org</a></li>
+	</ul>
+</section>
 
 </div>
 		</div>
