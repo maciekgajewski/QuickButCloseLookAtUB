@@ -11,6 +11,7 @@
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<!--link rel="stylesheet" href="lib/css/default.css"-->
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -148,7 +149,7 @@
 		<table class="code">
 			<tr><td>C++</td><td>asm</td></tr>
 			<tr><td>
-			<pre><code class="cpp">
+			<pre><code class="cpp" data-trim>
 	int fun(int i)
 	{
 		int array[4];
@@ -158,7 +159,7 @@
 </code></pre>
 		</td>
 		<td>
-				<pre><code class="x86asm">
+			<pre><code class="x86asm" data-trim>
 	fun(int):
 	mov eax, 333
 	ret
@@ -210,8 +211,10 @@
 						int array[] = {1, 2, 3, 5};
 					
 						for (int i = 0; i <= 4; i++)
+						{
 							if (array[i] == val)
 								return true;
+						}
 						
 						return false;
 					}
@@ -219,9 +222,9 @@
 		</td>
 		<td>
 			<pre><code class="x86asm" data-trim>
-					is_in_arr(int):
-					  mov eax, 1
-					  ret
+				is_in_arr(int):
+					mov eax, 1
+					ret
 			</code></pre>
 		</td></tr>
 		<tr class="hint"><td colspan="2">
@@ -242,24 +245,24 @@
 			<tr><td>C++</td><td>asm</td></tr>
 			<tr><td>
 			<pre><code class="cpp" data-trim>
-					int foo(int a, int b)
+				int foo(int a, int b)
+				{
+					for(int i = 0; i < 10; i++)
 					{
-					  for(int i = 0; i < 10; i++)
-					  {
 						if (b+i > b)
 							return 6;
 						a++;
-					  }
-					  return a;
 					}
+					return a;
+				}
 			</code></pre>
 		</td>
 		<td>
 			<pre><code class="x86asm" data-trim>
-					foo(int, int):
-					  mov eax, 6
-					  ret
-					</code></pre>
+				foo(int, int):
+					mov eax, 6
+					ret
+			</code></pre>
 		</td></tr>
 		<tr class="hint"><td colspan="2">
 			Params: <b>di, si, d, c, r8, r9</b><br/>Returns: <b>a, d, xmm0</b>
@@ -273,16 +276,16 @@
 			<tr><td>C++</td><td>asm</td></tr>
 			<tr><td>
 			<pre><code class="cpp" data-trim>
-					int foo(int a, unsigned b)
+				int foo(int a, unsigned b)
+				{
+					for(int i = 0; i < 10; i++)
 					{
-					  for(int i = 0; i < 10; i++)
-					  {
 						if (b+i > b)
 							return 6;
 						a++;
-					  }
-					  return a;
 					}
+					return a;
+				}
 			</code></pre>
 		</td>
 		<td>
@@ -646,6 +649,7 @@ set_ptr_to_rm_rf(): # @set_ptr_to_rm_rf()
 		<li>Maciej Gajewski &lt;maciej.gajewski0@gmail.com&gt</li>
 		<li><a href="https://maciekgajewski.github.io/QuickButCloseLookAtUB/index.html#">https://maciekgajewski.github.io/QuickButCloseLookAtUB/index.html</a></li>
 		<li><a href="https://gcc.godbolt.org/">https://gcc.godbolt.org</a></li>
+		<li>CppCon 2017 <i>“What Has My Compiler Done for Me Lately?”</i></li>
 	</ul>
 </section>
 
